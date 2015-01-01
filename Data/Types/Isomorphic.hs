@@ -10,7 +10,6 @@ module Data.Types.Isomorphic (
    ) where
 
 import qualified Numeric.Natural as N
-import qualified Numeric.Natural.Internal as N (runNatural)
 import qualified Numeric.Peano as PN
 import qualified Data.Text as TS
 import qualified Data.Text.Lazy as TL
@@ -26,36 +25,39 @@ import Data.Types.Injective
 --  with due to reflexivity.
 --
 --  The following must be ensured:
---  * @
---    isoFrom . isoTo = id
---    @
+--
+--  [@Isomorphism@]
+-- @
+-- isoFrom . isoTo = id
+-- @
 --
 --  Reflexivity, symmetry and transitivity are then "free":
 --
---  * @
---    instance Iso a a where
---       isoTo = id
---       isoFrom = id
---    @
+-- @
+-- instance Iso a a where
+--    isoTo = id
+--    isoFrom = id
+-- @
 --
---  * @
---    instance Iso a b => Iso b a where
---       isoTo = isoFrom
---       isoFrom = isoTo
---    @
+-- @
+-- instance Iso a b => Iso b a where
+--    isoTo = isoFrom
+--    isoFrom = isoTo
+-- @
 --
---  * @
---    instance (Iso a b, Iso b c) => Iso a c where
---       isoTo = isoTo . isoTo
---       isFrom = isoFrom . isoFrom
---    @
+-- @
+-- instance (Iso a b, Iso b c) => Iso a c where
+--   isoTo = isoTo . isoTo
+--   isFrom = isoFrom . isoFrom
+-- @
 --
 --  Out of these, only the first one (reflexivity) is actually implemented,
 --  since the other two would result in overlapping instances. We would be able
---  to avoid this with type inequality constrains (e.g. @a /= b@, @a /= c@,
---  @b /= c)@.
+--  to avoid this with type inequality constrains (e.g. @a \/~ b@, @a \/~ c@,
+--  @b \/~ c)@.
 class (Injective a b, Injective b a) => Iso a b where
 
+-- |Synonym for 'to'.
 from :: (Iso a b) => b -> a
 from = to
 
