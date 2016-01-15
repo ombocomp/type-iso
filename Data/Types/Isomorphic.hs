@@ -17,7 +17,7 @@ import qualified Data.Text.Lazy as TL
 import Data.Types.Injective
 
 -- |The class of isomorphic types, i.e. those which can be cast to each
---  other withouth loss of information. Type isomorphism is an equivalence
+--  other without loss of information. Type isomorphism is an equivalence
 --  relation (reflexive, symmetric, transitive), but due to the limitations
 --  of the type system, only reflexivity is implemented for all types.
 --  Since there are no type inequality constraints, writing symmetry and
