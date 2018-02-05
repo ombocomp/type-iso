@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE ExplictForall #-}
+{-# LANGUAGE ExplicitForAll #-}
 
 -- |Contains the class definition of 'Iso', indicating isomorphism between two
 --  types.
@@ -35,11 +35,11 @@ import Data.Types.Injective
 --  Reflexivity, symmetry and transitivity are then "free":
 --
 -- @
--- instance Iso a a 
+-- instance Iso a a
 -- @
 --
 -- @
--- instance (Iso a b, Iso b c) => Iso a c 
+-- instance (Iso a b, Iso b c) => Iso a c
 -- @
 --
 --  Out of these, only the first one (reflexivity) is actually implemented,

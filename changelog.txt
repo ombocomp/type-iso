@@ -1,0 +1,1 @@
+1.0.0.0 Renamed 'isoFrom' and 'isoTo' to just 'from' and 'to', flipped the type argument order to allow specifying the target type first.
