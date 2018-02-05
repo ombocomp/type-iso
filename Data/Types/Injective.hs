@@ -1,6 +1,7 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE ExplicitForall #-}
 
 -- |Injective types. This module contains the 'Injective' typeclass and instances
 --  for the following equivalence classes:
@@ -47,7 +48,7 @@ import qualified Numeric.Peano as PN
 --  @to@ should be a total function. No cheating by it undefined for parts of the set!
 class Injective a b where
    -- |Converts a value of type @a@ "losslessly" to one of type @b@.
-   to :: a -> b
+   to :: forall b a. a -> b
 
 instance Injective a a where
    to = id
