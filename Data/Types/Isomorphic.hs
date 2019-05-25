@@ -12,8 +12,10 @@ module Data.Types.Isomorphic (
 
 import qualified Numeric.Natural as N
 import qualified Numeric.Peano as PN
+import qualified Data.Sequence as S
 import qualified Data.Text as TS
 import qualified Data.Text.Lazy as TL
+import qualified Data.Vector.Generic as VG
 
 import Data.Types.Injective
 
@@ -67,3 +69,7 @@ instance Iso TL.Text TS.Text
 -- Peano wholes and integers.
 instance Iso PN.Whole Integer
 instance Iso Integer PN.Whole
+
+-- equivalence class of finite sequences
+instance (VG.Vector v a) => Iso (S.Seq a) (v a)
+instance (VG.Vector v a) => Iso (v a) (S.Seq a)
