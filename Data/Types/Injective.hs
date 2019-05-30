@@ -9,13 +9,16 @@
 --  for the following equivalence classes:
 --
 --  * @{Strict Text, Lazy Text, String}@. 'ByteString's are not part of this,
---    since there exists more than one way to turn unicode text into a ByteString
+--    since there is more than one way to turn unicode text into a ByteString
 --    (see "Data.Text.Encoding" and "Data.Text.Lazy.Encoding").
---  * @{Whole, Integer}@. Be advices, though, that Peano numbers may contain
+--  * @{Whole, Integer}@. Be advised, though, that Peano numbers may contain
 --    unobservable infinities (i.e. @infinity = S infinity@) and thus,
 --    the conversion to Integer may not terminate.
 --  * @{Nat, Natural}@. For finite values, they're extensionally equivalent,
 --    but 'Nat' has lazy infinity.
+--  * @{Seq a, Vector a}@. Supports all kinds of immutable vectors of elements:
+--    boxed, unboxed, primitive, storable. @[a]@ is not part of this, as
+--    typeclass 'IsList' provides 'fromList' and 'toList'.
 --
 --  Additional injections:
 --
@@ -29,10 +32,14 @@ import qualified Numeric.Natural as N
 import Data.Default
 import qualified Data.Maybe as M
 import qualified Data.Ratio as R
+import qualified Data.Sequence as S
 import qualified Data.Text as TS
 import qualified Data.Text.Encoding as TS
 import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Lazy.Encoding as TL
+import qualified Data.Vector.Generic as VG
+import qualified VectorBuilder.Builder as VB
+import qualified VectorBuilder.Vector as VB
 import qualified Numeric.Peano as PN
 
 -- |The class relation between types @a@ and @b@ s.t. @a@ can be injected
@@ -91,3 +98,9 @@ instance Injective Integer R.Rational where to = flip (R.%) 1
 instance Injective PN.Whole R.Rational where
    to (PN.Whole n PN.Pos) = (fromIntegral n) R.% 1
    to (PN.Whole n PN.Neg) = negate (fromIntegral n) R.% 1
+
+-- equivalence class of finite sequences
+instance VG.Vector v a => Injective (S.Seq a) (v a) where
+  to = VB.build . VB.foldable
+instance VG.Vector v a => Injective (v a) (S.Seq a) where
+  to v = S.fromFunction (VG.length v) (v VG.!)
